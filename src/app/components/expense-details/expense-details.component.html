@@ -7,29 +7,31 @@
 
     <div class="col-md-4">
       <label for="income_amount">Total Income:</label>
-      <span id="income_amount" class="form-control">{{
-        this.incomeAmount
-      }}</span>
+      <span id="income_amount" class="card">
+        <span class="card-body"> {{ this.incomeAmount }}</span>
+      </span>
     </div>
 
     <!-- total expense -->
 
     <div class="col-md-4">
       <label for="expense_amount">Expense Amount:</label>
-      <span id="expense_amount" class="form-control"
-        >{{ this.expenseAmount }}({{ this.expensePercentage() || 0 }}%)</span
-      >
+      <span id="expense_amount" class="card">
+        <span class="card-body">
+          {{ this.expenseAmount }}({{ this.expensePercentage() || 0 }}%)
+        </span>
+      </span>
     </div>
 
     <!-- total savings -->
 
     <div class="col-md-4">
       <label for="total_savings">Total Savings:</label>
-      <span id="total_savings" class="form-control"
-        >{{ this.totalSavings }}({{
-          this.totalSavingsPercentage() || 0
-        }}%)</span
-      >
+      <span id="total_savings" class="card">
+        <span class="card-body">
+          {{ this.totalSavings }}({{ this.totalSavingsPercentage() || 0 }}%)
+        </span>
+      </span>
     </div>
   </div>
 
@@ -68,7 +70,7 @@
         <!-- select transaction type -->
         <div class="col-md-3 mb-3">
           <label for="type" class="form-label">Transaction Table:</label>
-          <select
+          <!-- <select
             id="type"
             formControlName="transactionTable"
             class="form-select"
@@ -76,7 +78,19 @@
             <option value="" disabled selected>Select Type</option>
             <option value="totalExpense">Total Expense</option>
             <option value="income/expense">Income/Expense</option>
-          </select>
+          </select> -->
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              (change)="totalExpenseTable()"
+              id="flexSwitchCheckChecked"
+            />
+            <label class="form-check-label" for="flexSwitchCheckChecked"
+              >Total Expense Table</label
+            >
+          </div>
         </div>
       </div>
       <!-- form submit button -->
@@ -94,6 +108,7 @@
     </div>
   </form>
 
+  @if(totalIncomeExpense){
   <div class="row d-flex justify-content-center mt-5">
     <!-- total transaction table -->
     <div class="col-md-8 text-center">
@@ -122,10 +137,11 @@
       </table>
     </div>
   </div>
+}
 
   <!-- condition for showing income/expense table -->
-  @if(this.expenseForm.get("transactionTable")?.value === "income/expense"){
   <!-- income table -->
+   @if(!this.totalIncomeExpense){
   <div class="row mt-4">
     <div class="col-md-6 text-center">
       <h4>Income Table</h4>
@@ -180,5 +196,5 @@
       </table>
     </div>
   </div>
-  }
+}
 </div>

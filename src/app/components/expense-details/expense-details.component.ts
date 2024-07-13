@@ -25,7 +25,7 @@ export class ExpenseDetailsComponent implements OnInit {
   totalSavings: number = 0;
   incomeExpenseList: ExpenseFormValue[] = [];
   #fb = inject(FormBuilder);
-
+  totalIncomeExpense: boolean = false;
 
   ngOnInit(): void {
     this.expenseForm.get("transactionTable")?.valueChanges.subscribe(() => { });
@@ -45,6 +45,10 @@ export class ExpenseDetailsComponent implements OnInit {
       return ((this.expenseAmount - this.incomeAmount) / this.incomeAmount) * 100;
     }
     return undefined;
+  }
+
+  totalExpenseTable() {
+    this.totalIncomeExpense = !this.totalIncomeExpense;
   }
 
   //Total Savings
