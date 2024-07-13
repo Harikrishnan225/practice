@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CurrencyPipe } from '@angular/common';
 
 
 interface ExpenseFormValue {
@@ -13,7 +14,8 @@ interface ExpenseFormValue {
   selector: 'app-expense-details',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CurrencyPipe
   ],
   templateUrl: './expense-details.component.html',
   styleUrl: './expense-details.component.scss'
@@ -25,7 +27,7 @@ export class ExpenseDetailsComponent implements OnInit {
   totalSavings: number = 0;
   incomeExpenseList: ExpenseFormValue[] = [];
   #fb = inject(FormBuilder);
-  totalIncomeExpense: boolean = false;
+  totalTransactions: boolean = false;
 
   ngOnInit(): void {
     this.expenseForm.get("transactionTable")?.valueChanges.subscribe(() => { });
@@ -42,18 +44,22 @@ export class ExpenseDetailsComponent implements OnInit {
   //Expense Percentage
   expensePercentage() {
     if (this.incomeAmount && this.expenseAmount) {
-      return ((this.expenseAmount - this.incomeAmount) / this.incomeAmount) * 100;
+      return this.expenseAmount * 100 / this.incomeAmount;
     }
-    return undefined;
+    return 0;
   }
 
   totalExpenseTable() {
-    this.totalIncomeExpense = !this.totalIncomeExpense;
+    this.totalTransactions = !this.totalTransactions;
   }
 
   //Total Savings
   totalSavingsPercentage() {
-    return ((this.incomeAmount - this.expenseAmount) / 100) * 100;
+    if (this.incomeAmount) {
+      const savings = this.incomeAmount - this.expenseAmount;
+      return savings * 100 / this.incomeAmount;
+    }
+    return 0;
   }
 
   #sumTransactions(transactions: Array<ExpenseFormValue>, transactionType: ExpenseFormValue["type"]) {

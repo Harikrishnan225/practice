@@ -6,19 +6,19 @@
     <!-- total income -->
 
     <div class="col-md-4">
-      <label for="income_amount">Total Income:</label>
       <span id="income_amount" class="card">
-        <span class="card-body"> {{ this.incomeAmount }}</span>
+        <span class="card-header">Total Income:</span>
+        <span class="card-body"> ₹{{ this.incomeAmount }}</span>
       </span>
     </div>
 
     <!-- total expense -->
 
     <div class="col-md-4">
-      <label for="expense_amount">Expense Amount:</label>
       <span id="expense_amount" class="card">
+        <span class="card-header">Expense Income:</span>
         <span class="card-body">
-          {{ this.expenseAmount }}({{ this.expensePercentage() || 0 }}%)
+          ₹{{ this.expenseAmount }}({{ this.expensePercentage() || 0 }}%)
         </span>
       </span>
     </div>
@@ -26,10 +26,10 @@
     <!-- total savings -->
 
     <div class="col-md-4">
-      <label for="total_savings">Total Savings:</label>
       <span id="total_savings" class="card">
+        <span class="card-header">Total Savings:</span>
         <span class="card-body">
-          {{ this.totalSavings }}({{ this.totalSavingsPercentage() || 0 }}%)
+          ₹{{ this.totalSavings }}({{ this.totalSavingsPercentage() || 0 }}%)
         </span>
       </span>
     </div>
@@ -70,15 +70,6 @@
         <!-- select transaction type -->
         <div class="col-md-3 mb-3">
           <label for="type" class="form-label">Transaction Table:</label>
-          <!-- <select
-            id="type"
-            formControlName="transactionTable"
-            class="form-select"
-          >
-            <option value="" disabled selected>Select Type</option>
-            <option value="totalExpense">Total Expense</option>
-            <option value="income/expense">Income/Expense</option>
-          </select> -->
           <div class="form-check form-switch">
             <input
               class="form-check-input"
@@ -108,11 +99,11 @@
     </div>
   </form>
 
-  @if(totalIncomeExpense){
+  @if(incomeExpenseList.length !== 0){ @if(totalTransactions){
   <div class="row d-flex justify-content-center mt-5">
     <!-- total transaction table -->
     <div class="col-md-8 text-center">
-      <h4>Total Expense Table</h4>
+      <h4>Total Transactions</h4>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -126,7 +117,7 @@
           <tr>
             <td>{{ i.type }}</td>
             <td>{{ i.reason }}</td>
-            <td>{{ i.amount }}</td>
+            <td>{{ i.amount | currency : "INR" }}</td>
           </tr>
           } @if(incomeExpenseList.length == 0){
           <tr class="col text-center">
@@ -137,11 +128,11 @@
       </table>
     </div>
   </div>
-}
+  }
 
   <!-- condition for showing income/expense table -->
   <!-- income table -->
-   @if(!this.totalIncomeExpense){
+  @if(!this.totalTransactions){
   <div class="row mt-4">
     <div class="col-md-6 text-center">
       <h4>Income Table</h4>
@@ -158,7 +149,7 @@
           <tr>
             <td>{{ i.type }}</td>
             <td>{{ i.reason }}</td>
-            <td>{{ i.amount }}</td>
+            <td>{{ i.amount | currency : "INR" }}</td>
           </tr>
           } } @if(incomeExpenseList.length == 0){
           <tr class="col text-center">
@@ -185,7 +176,7 @@
           <tr>
             <td>{{ x.type }}</td>
             <td>{{ x.reason }}</td>
-            <td>{{ x.amount }}</td>
+            <td>{{ x.amount | currency : "INR" }}</td>
           </tr>
           } } @if(incomeExpenseList.length == 0){
           <tr class="col text-center">
@@ -196,5 +187,5 @@
       </table>
     </div>
   </div>
-}
+  } }
 </div>
