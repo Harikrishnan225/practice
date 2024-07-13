@@ -1,11 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TodoService } from '../../services/todo/todo.service';
-
-interface toDoList {
-  id: number | null;
-  title: string | null;
-  completed: string | null;
-}
+import { ToDoList } from '../../services/todo/todo';
 
 @Component({
   selector: 'app-todolist',
@@ -15,22 +10,22 @@ interface toDoList {
   styleUrl: './todolist.component.scss'
 })
 export class TodolistComponent implements OnInit {
-toDoList: any;
-#toDoServiceList = inject(TodoService)
+  toDoList: ToDoList[] = [];
+  #toDoServiceList = inject(TodoService)
 
-ngOnInit(): void {
-  this.toDoListData()
-}
+  ngOnInit(): void {
+    this.toDoListData()
+  }
 
-toDoListData(){
-  this.#toDoServiceList.getTodoDetails().subscribe(
-    (data) => {
-      this.toDoList = data
-    },
-    (error) => {
-      console.log('Cant able to fetch', error);    
-    }
-  )
-}
+  toDoListData() {
+    this.#toDoServiceList.getTodoDetails().subscribe(
+      (data) => {
+        this.toDoList = data
+      },
+      (error) => {
+        console.log('Cant able to fetch', error);
+      }
+    )
+  }
 
 }
