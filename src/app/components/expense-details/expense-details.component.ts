@@ -22,16 +22,15 @@ interface ExpenseFormValue {
 })
 
 export class ExpenseDetailsComponent implements OnInit {
-  incomeAmount: number = 0;
-  expenseAmount: number = 0;
-  totalSavings: number = 0;
+  incomeAmount = signal<number>(0);
+  expenseAmount = signal<number>(0);
+  totalSavings = signal<number>(0);
   incomeExpenseList = signal<ExpenseFormValue[]>([]);
   #fb = inject(FormBuilder);
-  totalTransactions: boolean = false;
+  totalTransactions = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.expenseForm.get("transactionTable")?.valueChanges.subscribe(() => { });
-    
+    this.expenseForm().get("transactionTable")?.valueChanges.subscribe(() => { });
   }
 
   x = effect(() => {
@@ -39,30 +38,30 @@ export class ExpenseDetailsComponent implements OnInit {
   })
 
   // Form Data
-  expenseForm = this.#fb.group({
+  expenseForm = signal(this.#fb.group({
     type: ["", Validators.required],
     amount: ["", Validators.required],
     reason: ["", Validators.required],
     transactionTable: [""]
-  })
+  }));
 
   //Expense Percentage
   expensePercentage() {
-    if (this.incomeAmount && this.expenseAmount) {
-      return this.expenseAmount * 100 / this.incomeAmount;
+    if (this.incomeAmount() && this.expenseAmount) {
+      return this.expenseAmount() * 100 / this.incomeAmount();
     }
     return 0;
   }
 
   totalExpenseTable() {
-    this.totalTransactions = !this.totalTransactions;
+    this.totalTransactions.set(!this.totalTransactions);
   }
 
   //Total Savings
   totalSavingsPercentage() {
-    if (this.incomeAmount) {
-      const savings = this.incomeAmount - this.expenseAmount;
-      return savings * 100 / this.incomeAmount;
+    if (this.incomeAmount()) {
+      const savings = this.incomeAmount() - this.expenseAmount();
+      return savings * 100 / this.incomeAmount();
     }
     return 0;
   }
@@ -75,14 +74,14 @@ export class ExpenseDetailsComponent implements OnInit {
 
   //expense submit
   expenseSubmitForm() {
-    const formValue = this.expenseForm.value as ExpenseFormValue;
-    this.expenseForm.reset();
+    const formValue = this.expenseForm().value as ExpenseFormValue;
+    this.expenseForm().reset();
 
     //Data pushing into Array
     this.incomeExpenseList.update(x => x.concat(formValue));
-    this.incomeAmount = this.#sumTransactions(this.incomeExpenseList(), "income");
-    this.expenseAmount = this.#sumTransactions(this.incomeExpenseList(), "expense");
+    this.incomeAmount.set(this.#sumTransactions(this.incomeExpenseList(), "income"));
+    this.expenseAmount.set(this.#sumTransactions(this.incomeExpenseList(), "expense"));
 
-    this.totalSavings = this.incomeAmount - this.expenseAmount;
+    this.totalSavings.set(this.incomeAmount() - this.expenseAmount());
   }
 }

@@ -8,7 +8,7 @@
     <div class="col-md-4">
       <span id="income_amount" class="card">
         <span class="card-header">Total Income:</span>
-        <span class="card-body"> ₹{{ this.incomeAmount }}</span>
+        <span class="card-body"> ₹{{ this.incomeAmount() }}</span>
       </span>
     </div>
 
@@ -18,7 +18,7 @@
       <span id="expense_amount" class="card">
         <span class="card-header">Expense Income:</span>
         <span class="card-body">
-          ₹{{ this.expenseAmount }}({{ this.expensePercentage() || 0 }}%)
+          ₹{{ this.expenseAmount() }}({{ this.expensePercentage() || 0 }}%)
         </span>
       </span>
     </div>
@@ -29,13 +29,13 @@
       <span id="total_savings" class="card">
         <span class="card-header">Total Savings:</span>
         <span class="card-body">
-          ₹{{ this.totalSavings }}({{ this.totalSavingsPercentage() || 0 }}%)
+          ₹{{ this.totalSavings() }}({{ this.totalSavingsPercentage() || 0 }}%)
         </span>
       </span>
     </div>
   </div>
 
-  <form [formGroup]="expenseForm" (ngSubmit)="expenseSubmitForm()">
+  <form [formGroup]="expenseForm()" (ngSubmit)="expenseSubmitForm()">
     <div class="container mt-4">
       <div class="row">
         <!-- amount -->
@@ -90,7 +90,7 @@
           <button
             type="submit"
             class="btn btn-primary w-100"
-            [disabled]="expenseForm.invalid"
+            [disabled]="expenseForm().invalid"
           >
             Submit
           </button>
@@ -99,7 +99,7 @@
     </div>
   </form>
 
-  @if(incomeExpenseList().length !== 0){ @if(totalTransactions){
+  @if(incomeExpenseList().length !== 0){ @if(totalTransactions()){
   <div class="row d-flex justify-content-center mt-5">
     <!-- total transaction table -->
     <div class="col-md-8 text-center">
@@ -132,7 +132,7 @@
 
   <!-- condition for showing income/expense table -->
   <!-- income table -->
-  @if(!this.totalTransactions){
+  @if(!this.totalTransactions()){
   <div class="row mt-4">
     <div class="col-md-6 text-center">
       <h4>Income Table</h4>
