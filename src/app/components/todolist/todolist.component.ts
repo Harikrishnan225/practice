@@ -10,8 +10,9 @@ import { ToDoList } from '../../services/todo/todo';
   styleUrl: './todolist.component.scss'
 })
 export class TodolistComponent implements OnInit {
-  toDoList: ToDoList[] = [];
-  #toDoServiceList = inject(TodoService)
+  completedList: ToDoList[] = [];
+  incompletedList: ToDoList[] = [];
+  #toDoServiceList = inject(TodoService);
 
   ngOnInit(): void {
     this.toDoListData()
@@ -20,7 +21,10 @@ export class TodolistComponent implements OnInit {
   toDoListData() {
     this.#toDoServiceList.getTodoDetails().subscribe(
       (data) => {
-        this.toDoList = data;
+        if (data) {
+          this.completedList = data.filter(item => item.completed);
+          this.incompletedList = data.filter(item => !item.completed);
+        }
       },
       (error) => {
         console.log('Cant able to fetch', error);
