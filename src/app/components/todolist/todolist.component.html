@@ -10,7 +10,7 @@
           </tr>
         </thead>
         <tbody>
-          @for(todo of incompletedList; track todo; let i = $index){
+          @for(todo of incompletedList(); track todo; let i = $index){
           <tr>
             <td>{{ i + 1 }}</td>
             <td>{{ todo.title }}</td>
@@ -30,7 +30,7 @@
           </tr>
         </thead>
         <tbody>
-          @for(todo of incompletedList; track todo; let i = $index){
+          @for(todo of incompletedList(); track todo; let i = $index){
           <tr>
             <td>{{ i + 1 }}</td>
             <td>{{ todo.title }}</td>

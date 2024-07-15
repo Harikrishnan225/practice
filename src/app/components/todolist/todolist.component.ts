@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { TodoService } from '../../services/todo/todo.service';
 import { ToDoList } from '../../services/todo/todo';
 
@@ -10,8 +10,8 @@ import { ToDoList } from '../../services/todo/todo';
   styleUrl: './todolist.component.scss'
 })
 export class TodolistComponent implements OnInit {
-  completedList: ToDoList[] = [];
-  incompletedList: ToDoList[] = [];
+  completedList = signal<ToDoList[]>([]);
+  incompletedList= signal<ToDoList[]>([]);
   #toDoServiceList = inject(TodoService);
 
   ngOnInit(): void {
@@ -22,8 +22,8 @@ export class TodolistComponent implements OnInit {
     this.#toDoServiceList.getTodoDetails().subscribe(
       (data) => {
         if (data) {
-          this.completedList = data.filter(item => item.completed);
-          this.incompletedList = data.filter(item => !item.completed);
+          this.completedList.set(data.filter(item => item.completed));
+          this.incompletedList.set(data.filter(item => !item.completed));
         }
       },
       (error) => {
