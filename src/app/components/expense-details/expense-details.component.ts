@@ -54,7 +54,7 @@ export class ExpenseDetailsComponent implements OnInit {
   }
 
   totalExpenseTable() {
-    this.totalTransactions.set(!this.totalTransactions);
+    this.totalTransactions.set(!this.totalTransactions());
   }
 
   //Total Savings
