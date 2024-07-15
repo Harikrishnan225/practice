@@ -99,7 +99,7 @@
     </div>
   </form>
 
-  @if(incomeExpenseList.length !== 0){ @if(totalTransactions){
+  @if(incomeExpenseList().length !== 0){ @if(totalTransactions){
   <div class="row d-flex justify-content-center mt-5">
     <!-- total transaction table -->
     <div class="col-md-8 text-center">
@@ -113,13 +113,13 @@
           </tr>
         </thead>
         <tbody>
-          @for(i of incomeExpenseList; track i) {
+          @for(i of incomeExpenseList(); track i) {
           <tr>
             <td>{{ i.type }}</td>
             <td>{{ i.reason }}</td>
             <td>{{ i.amount | currency : "INR" }}</td>
           </tr>
-          } @if(incomeExpenseList.length == 0){
+          } @if(incomeExpenseList().length == 0){
           <tr class="col text-center">
             <td colspan="3">No Data Found</td>
           </tr>
@@ -145,13 +145,13 @@
           </tr>
         </thead>
         <tbody>
-          @for(i of incomeExpenseList; track i) { @if(i.type === "income") {
+          @for(i of incomeExpenseList(); track i) { @if(i.type === "income") {
           <tr>
             <td>{{ i.type }}</td>
             <td>{{ i.reason }}</td>
             <td>{{ i.amount | currency : "INR" }}</td>
           </tr>
-          } } @if(incomeExpenseList.length == 0){
+          } } @if(incomeExpenseList().length == 0){
           <tr class="col text-center">
             <td colspan="3">No Data Found</td>
           </tr>
@@ -172,13 +172,13 @@
           </tr>
         </thead>
         <tbody>
-          @for(x of incomeExpenseList; track x ){@if(x.type === "expense"){
+          @for(x of incomeExpenseList(); track x ){@if(x.type === "expense"){
           <tr>
             <td>{{ x.type }}</td>
             <td>{{ x.reason }}</td>
             <td>{{ x.amount | currency : "INR" }}</td>
           </tr>
-          } } @if(incomeExpenseList.length == 0){
+          } } @if(incomeExpenseList().length == 0){
           <tr class="col text-center">
             <td colspan="3">No Data Found</td>
           </tr>
