@@ -20,7 +20,7 @@ export class TodolistComponent implements OnInit {
   toDoListData() {
     this.#toDoServiceList.getTodoDetails().subscribe(
       (data) => {
-        this.toDoList = data
+        this.toDoList = data;
       },
       (error) => {
         console.log('Cant able to fetch', error);
