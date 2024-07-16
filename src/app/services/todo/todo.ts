@@ -1,5 +1,5 @@
 export interface ToDoList {
     title: string | null;
-    completed: string | null;
+    completed: boolean;
   }
   
